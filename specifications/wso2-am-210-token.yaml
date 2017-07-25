@@ -1,0 +1,72 @@
+swagger: '2.0'
+info:
+  version: 2.10.0
+  title: WSO API Manager Token API
+  description: ''
+host: 'localhost:8243'
+schemes:
+  - http
+  - https
+securityDefinitions:
+  userKeySecret:
+    type: basic
+paths:
+  /token:
+    get:
+      operationId: getGrant
+      summary: 'Client Credentials, Password & Refresh Grant'
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: grant_type
+          in: query
+          required: true
+          type: string
+          enum:
+            - password
+            - client_credentials
+            - refresh_token
+        - name: username
+          in: query
+          required: true
+          type: string
+        - name: password
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/tokengrant'
+        '401':
+          description: ''
+        '404':
+          description: ''
+        '500':
+          description: ''
+      security:
+        - userKeySecret: []
+definitions:
+  tokengrant:
+    title: TokenGrant
+    type: object
+    properties:
+      scope:
+        type: string
+      token_type:
+        type: string
+      expires_in:
+        type: integer
+      refresh_token:
+        type: string
+      access_token:
+        type: string
+    example:
+      scope: default
+      token_type: Bearer
+      expires_in: 3600
+      refresh_token: 7ed6bae2b1d36c041787e8c8e2d6cbf8
+      access_token: b7882d23f1f8257f4bc6cf4a20633ab1
